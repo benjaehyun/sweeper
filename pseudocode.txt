@@ -1,0 +1,104 @@
+|page load| 
+    set the initialized state variables ie bomb counter, grid size, number of bombs on board, timer etc 
+    show the initialized state 
+    only has directions/controls and the 3 difficulty buttons 
+    
+|difficulty selected| 
+    hide the buttons and possibly relocate the directions/controls 
+    once a difficulty is selected then run the initizalization (or maybe call it gamestart since its not technically the initialization) 
+        declare the empty arrays that will be used as the board/grid 
+        use the Math methods for a RNG and randomly assign the preset bomb numbers to the array || note: probably be an array of arrays 
+        (probably use a class) to populate a grid with one of the preset grid sizes and number of bombs (static property) based on which difficulty was selected 
+        run the function that will determine the placement of the numbers vs empty cells (still need to figure out which need to be filled with a number and which need to be empty)
+            also still need to code/decide how your going to store the empty cells in the arrays || probably null bc if u store the value of the array as 0 then u cant also use number data types for the numbers that are displayed in the grid 
+        once the grid is populated then begin the render function | question: will you have different render functions for different states/points of the game 
+            at least for the initial render: 
+                display the overall backdrop, bomb counter, reset/restart button, timer, board/grid, and some message that tells them to 'keep going util they find all of the bombs and clear the remaining squares 
+                populate the divs in the grid/board according to the difficulty selected within a parent element that is specified in the html 
+                    also remember to use some sort of template literal to assign id's to each new div that will correspond to their array position
+                    use some sort of brainching statement OR object nesting to store styling data such as display type, grid arrangement, direction etc for each difficulty
+        styling notes: 
+            each cell will have various display states: 
+                all will have the covered, uncovered, and marked states 
+                uncovered states will display the contents or lack thereof 
+                    remember that there needs to be some sort of logic or cascade effect that will uncover unoccupied cells that are directly adjacent to each other
+
+|gameplay|
+    add the event listeners 
+        first event listener: 
+            on the reset button and calls the initialization function and will redisplay the difficulty selection and wipe the existing array/state variables. 
+                on level select, reinstantiate an object for the new game 
+        second event listener: 
+            put it on the parent element for whatever the grid is contained in 
+    handleClick (figure out how to differentiate left, middle, and right-click)
+        if the left click 
+            set up a guard to make sure that its on the grid 
+            then use the styling of the particular divs, and the div id's (aka the evt.target.id) to access each index in the array 
+            always display the cell's contents (think about how u want to do this whether it be an image that is covered or calls a different{hidden} element that will be called based on the cell contents or will there be inner text that will be populated in the div)
+            then check if there was a bomb and immediately end the game 
+        if middle click 
+            reveal all surrounding non-marked squares 
+        if right click 
+            mark the cell as having a bomb and then reduce the counter for how many bombs are left 
+            option: have another marked option that is a yellow flag or something that means that the player is unsure 
+
+|functions| 
+    not technically a function, declare a class for populating the array or an array in an object and the related methods 
+    code the callback function for the different event listeners and use whatever "method" (not actual method) to accordingly display what u want 
+    the middle mouseclick callback function will be different where it performs the left click function for the 9 adjacent squares (if there are 9 surrounding squares, do something else if it is on an edge or in a corner)
+    build a running timer that will run asynchronously (and stored for a possible 2nd component to the game)
+    
+
+|optional game continuation|
+    idea: kind of a combination of a speedrun and memory game where u replay the exact same board and try to remember the bomb positions and re-clear the same board
+    store the exact same array of numbers and bomb positions 
+    change all of the cells/divs back to their covered state 
+    probably have a start button this time just because the completion time matters 
+    create a new element on the side 
+    probably create a new object that stores the run number and completion time of the most recent run of the grid before appending it to an overall array 
+    display the run number and the completion time in that new element 
+    keep doing this replay cycle until either: 
+        the player completion time is higher than the most recent run 
+        player clicks a bomb; player loses a normal game of minesweeper 
+
+|if you somehow finish this in a godly amount of time| 
+    develop some sort of system that is shows some sort of hint if the player gets stuck 
+        maybe unhide a hint button after a certain amount of time has elapsed since the game start 
+    use one of the solving algorithms/logic outlined in "https://dash.harvard.edu/bitstream/handle/1/14398552/BECERRA-SENIORTHESIS-2015.pdf" for example 
+        i think that this should reveal a logical next move for the player to make based on the previously completed moves 
+    the hint can come in any number of forms: 
+        maybe highlight a select area (changes based on grid size) that for sure contains a bomb && possibly display the number of bombs in that area depending on the size of the highlighted area 
+        highlight the correct next move to make based on the algorithm/logic explained in the above linked thesis 
+        maybe find a way to put this into a string and display that string 
+
+|if you somehow turn into jesus christ on a keyboard and finish that too this week| 
+    introduce some new scoring system where misclicks are allowed in subsequent runs after the first solve 
+    find out a way to get a value that is fairly scored but is still VERY penalizing for clicking on a bomb square 
+        maybe look at the way that different typing tests score time against the misspellings but obviously change the weight of errors 
+    
+|if you cheated on this project and finished everything above| 
+    create more levels that will not only increase the bomb and grid size but will also reduce the number of empty cells 
+    also for the values that are stored in the cells: make all of the numbers smaller and make larger values less frequent 
+        ie, dont have any number that are over 6 or 7 or something and make them few and far 
+    note: could affect the logic that populates the cells 
+    may not work because i dont know if that logic will exist (but i think it will if i increase the number of bombs appropriately)
+
+|if you cheated AND the feature directly above this one doesn't work| 
+    make different modes: 
+    first: traditional minesweeper where you choose the grid size that ends after a single solve
+    second: game continuation discussed above for a completion time highscore 
+    third: 
+        make the game progressive 
+        start wtih a very easy level and with each solve reinstantiate the board 
+        after each completion create a new board that is harder than the last 
+        scored by some level classification (such as level number that could then be put into larger categories) and completion time || OR time it took to get to that level in total 
+
+
+|notes| 
+    need to figure out exactly when you want to populate the cells 
+        this has an effect on whether or not the player can trigger a bomb on the first click 
+    still need to find out how empty spaces are determined 
+        MAYBE itll be easier to calculate the value for each cell on the grid before determining the empty cells and then use some sort of logic to make "non-bomb-adjacent squares" that are not adjacent to other "non-bomb-adjacent squares" empty
+    still need to do the math for your whichever grid array configuration that u choose and determining those values in reference to random bomb positions 
+    implementing a recursive solution ? 
+    
