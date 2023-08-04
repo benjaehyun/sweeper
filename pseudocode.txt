@@ -93,6 +93,9 @@
         after each completion create a new board that is harder than the last 
         scored by some level classification (such as level number that could then be put into larger categories) and completion time || OR time it took to get to that level in total 
 
+|adtnl features| 
+    light and dark mode 
+
 
 |notes| 
     need to figure out exactly when you want to populate the cells 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sweeper</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script defer src="js/main.js"></script>
+</head>
+<body>
+    <h1>Ready to Play Some Minesweeper?</h1>
+    <div id="canvas">
+        <div class="top-bar" id="bomb-counter-box">
+            <div id="bomb counter">010</div>
+        </div>
+        <div class="top-bar" id="reset">
+            <button type="button" id="reset">🙂</button>
+        </div>
+        <div class="top-bar" id="timer-box">
+            <div id="timer">099</div>
+        </div>
+        <div id="difficulty-selector">
+            <button type="button" class="difficulty" id="easy">easy</br> <span>9x9</span></button>
+            <button type="button" class="difficulty" id="medium">medium</br> <span>16x16</span></button>
+            <button type="button" class="difficulty" id="hard">hard</br> <span>16x30</span></button>
+        </div>
+        <div id="grid"></div>
+    </div>
+    <div id="directions">
+        <p><strong>Directions:</strong> Use left-click (mouse button 1) to reveal a square. If it has a bomb, then you lose. If not, then it will reveal whatever number that it contains. The numbers represent the 
+    number of bombs contained within the cells directly adjacent to the revealed cell.</p>
+    </div>
+</body>
+</html>

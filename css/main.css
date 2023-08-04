@@ -1,0 +1,89 @@
+body {
+    display: grid; 
+    grid-template-rows: repeat(6, 1fr) ;
+    grid-template-areas: 
+    "header"
+    "play"
+    "play"
+    "play"
+    "play"
+    "directions";    
+}
+
+body > h1 {
+    grid-area: header; 
+    justify-self: center;
+}
+
+#directions > p {
+    grid-area: directions;
+    justify-self: center;
+    align-items: center;
+    font-size: 10px; 
+}
+
+#canvas {
+    grid-area: play;
+    justify-self: center;
+    width: 80vw; 
+    height: 80vh; 
+    background-color: grey;
+    display: grid;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas: 
+    "head"
+    "body";
+}
+
+#bomb-counter-box{
+    grid-area: head;
+    justify-self: start;
+    background-color: red;
+    text-align: center;
+    width: 5vw;
+    margin: 2vh; 
+    display: flex; 
+    justify-content: space-evenly;
+    align-items: center;
+}
+#timer-box{
+    grid-area: head;
+    justify-self: end;
+    background-color: red;
+    text-align: center;
+    width: 5vw;
+    margin: 2vh; 
+    display: flex; 
+    justify-content: space-evenly;
+    align-items: center;
+}
+#reset {
+    grid-area: head;
+    justify-self: center; 
+    height: 8.88vh; 
+    width: 5vw; 
+    margin-top: 0.5vh; 
+}
+#difficulty-selector {
+    grid-area: body; 
+    justify-self: center; 
+    width: 100%;
+    display: flex; 
+    justify-content: space-evenly;
+    align-items: center;
+}
+#easy {
+    height: 7vh; 
+
+}
+#medium {
+    height: 7vh; 
+
+}
+#hard {
+    height: 7vh; 
+}
+
+button > span {
+    font-size: 10px;
+}
