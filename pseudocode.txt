@@ -104,4 +104,17 @@
         MAYBE itll be easier to calculate the value for each cell on the grid before determining the empty cells and then use some sort of logic to make "non-bomb-adjacent squares" that are not adjacent to other "non-bomb-adjacent squares" empty
     still need to do the math for your whichever grid array configuration that u choose and determining those values in reference to random bomb positions 
     implementing a recursive solution ? 
+
+|coding challenges|
+    building and populating the arrays with objects 
+        obv make a class that will build the objects 
+        use a for loop that calls the class (for ex. arrObject) and use the game state object to get the appropriate length, as its comparative parameter 
+            declare an array that would either be column or row (for ex. arrColumn), then push.arrColumn(new arrObject)
+        nest ^ within another for loop that constructs aforementioned arrays that also uses the other property within the game state object to get the appropriate length, as its comparative parameter 
+            
+        
+
+        use a for loop that calls the class and use the game state object to get the appropriate length, as its comparative parameter 
+            nest ^ within another for loop that constructs aforementioned arrays that also uses the other property wtihin the game state object to get the appropriate length, as its comparative parameter 
+                maybe, write up the for loop and 
     
