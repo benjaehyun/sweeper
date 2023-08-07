@@ -63,8 +63,8 @@ function handleBoardClick(evt) {
 	const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
 	const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
 	if (firstClick = true) {
-	placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
-	firstClick = false
+		placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
+		firstClick = false
 	} else {
 		// all of the other clicks to play the game 
 	}
@@ -76,6 +76,7 @@ function renderGameStart(difficulty) {
 	diffSelectorEl.style.display = "none";
 	boardEl.style.display = "grid";
 	console.log(difficultyMode[difficulty].gridWidth)
+	console.log(difficultyMode[difficulty].bombNumber)
 	const width = difficultyMode[difficulty].gridWidth
 	const height = difficultyMode[difficulty].gridHeight
 	buildArr(width, height);
@@ -93,20 +94,26 @@ function renderGameStart(difficulty) {
 // }
 // console.log(arr2)
 function buildArr (x, y) {
-	const arrRows = []; 
-	for (i = 0; i < x ; i++) {
-		arrRows.push(new CellObject);
-		// arrRows.push("1");
-	}; 
-	for (i = 0; i < y; i++) {
-		boardArr.push(arrRows)
-	}
-	return boardArr; 
+	for(let i = 0; i < x; i++){
+		const row = []
+		for(let j = 0; j < y; j++) {
+		  row.push(new CellObject())
+		}
+		boardArr.push(row)
+	  }
+	// const arrRows = []; 
+	// for (i = 0; i < x ; i++) {
+	// 	arrRows.push(new CellObject);
+	// 	// arrRows.push("1");
+	// }; 
+	// for (i = 0; i < y; i++) {
+	// 	boardArr.push(arrRows)
+	// }
 };
 
 class CellObject {
 	constructor() {
-		this.hasBomb = null, 
+		this.hasBomb = false, 
 		this.numOfNearBombs = null,
 		this.isFlipped = false, 
 		this.isFlagged = false 
@@ -136,11 +143,11 @@ function placeRandomBomb(bombNumber, rowIdx, colIdx) {
 	while (i < bombNumber) {
 		let bombRow = randomRow(rowIdx); 
 		let bombCol = randomCol(colIdx); 
-		if (boardArr[bombCol][bombRow].hasBomb = false) {
+		if (boardArr[bombCol][bombRow].hasBomb === false) {
 			boardArr[bombCol][bombRow].hasBomb = true; 
-			return i++; 
-		} else return 
-	}
+			i++; 
+		} 
+	}	
 }
 
 	/* i dont think that you can use a for loop because there are edge cases where it can produce the same cell location*/
@@ -155,15 +162,15 @@ function randomRow(rowIdx) {
 	let randRow = null; 
 	while (randRow === null || randRow === rowIdx) {
 		randRow = Math.round(Math.random() * (difficultyMode[difficulty].gridWidth - 1) ) 
-		return randRow; 
 	}
+	return randRow; 
 }
 function randomCol(colIdx) {
 	let randCol = null; 
 	while (randCol === null || randCol === colIdx) {
 		randCol = Math.round(Math.random() * (difficultyMode[difficulty].gridHeight - 1) ) 
-		return randCol; 
 	}
+	return randCol; 
 }
 
 function getLoser() {			// check if player clicked on bomb 
