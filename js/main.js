@@ -15,7 +15,7 @@ const difficultyMode = [{
 	bombNumber: 99
 	}]
 	/*----- state variables -----*/
-let winner, bombCounter, timer ; 
+let winner, bombCounter, timer, difficulty, height, width; 
 const boardArr = []; 
 
 	/*----- cached elements  -----*/
@@ -25,32 +25,43 @@ const boardEl = document.querySelector("#grid");
 
 	/*----- event listeners -----*/
 diffSelectorEl.addEventListener("click", handleDifficultyClick);
+boardEl.addEventListener("click", handleBoardClick)
 
 	/*----- functions -----*/
 init() 
 
 function init() {
-	board = [] 
 	boardEl.innerHTML = ""
 	winner = false 
 	bombCounter = 0 
 	timer = 0 
-	// renderDifficultySelection()
+	renderDifficultySelection()
 }
 
-// function renderDifficultySelection() {
-// 	boardEl.style.display = "none"
-// 	diffSelectorEl.style.display = "flex"
-// }
+function renderDifficultySelection() {
+	boardEl.style.display = "none"
+	diffSelectorEl.style.display = "flex"
+}
 
 function handleDifficultyClick(evt) {
 	if (evt.target.id === "easy") {
 		renderGameStart(0);
+		return difficulty = 0;
 	} else if (evt.target.id === "medium") {
 		renderGameStart(1);
+		return difficulty = 1;
 	} else if (evt.target.id === "hard") {
 		renderGameStart(2);
+		return difficulty = 2;
 	}
+}
+
+function handleBoardClick(evt) {
+	const gridEls = [...document.querySelectorAll('#grid>div')]
+	const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
+	const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
+	placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
+	console.log(colIdx, rowIdx)
 }
 
 // later: change css for top bar elements to start hidden before changing the ~.style.display to the properties outlined in the current css file 
@@ -58,10 +69,10 @@ function renderGameStart(difficulty) {
 	diffSelectorEl.style.display = "none";
 	boardEl.style.display = "grid";
 	console.log(difficultyMode[difficulty].gridWidth)
-	buildArr(difficultyMode[difficulty].gridWidth, difficultyMode[difficulty].gridHeight);
-	renderCells(difficultyMode[difficulty].gridWidth, difficultyMode[difficulty].gridHeight);
-
-	// board = new MinesweeperGame(difficulty) 
+	const width = difficultyMode[difficulty].gridWidth
+	const height = difficultyMode[difficulty].gridHeight
+	buildArr(width, height);
+	renderCells(height, width);
 }
 
 // if u add some of the features from the pseudocode, will probably have to make and fill the game properties (width, height, bombNumber) dynamically
@@ -77,7 +88,7 @@ function renderGameStart(difficulty) {
 function buildArr (x, y) {
 	const arrRows = []; 
 	for (i = 0; i < x ; i++) {
-		arrRows.push(new cellObject);
+		arrRows.push(new CellObject);
 		// arrRows.push("1");
 	}; 
 	for (i = 0; i < y; i++) {
@@ -86,7 +97,7 @@ function buildArr (x, y) {
 	return boardArr; 
 };
 
-class cellObject {
+class CellObject {
 	constructor() {
 		this.hasBomb = null, 
 		this.numOfNearBombs = null,
@@ -95,13 +106,56 @@ class cellObject {
 	}
 }
 
-function renderCells ( gridWidth, gridHeight ) {
-	for (i = 0; i < gridWidth ; i ++){
-		for (e = 0; i < gridHeight; e ++) {
+function renderCells (height, width) {
+	for (let i = 0; i < height; i ++) {
+		for (let e = 0; e < width; e ++) {
 			const cellEl = document.createElement("div")
 			cellEl.setAttribute("id", `r${i}c${e}`)
+			cellEl.innerText = "1"
+			cellEl.style.border = "solid"
+			cellEl.style.display = "flex"
+			cellEl.style.justifyContent = "center"
+			cellEl.style.alignItems = "center"
 			boardEl.appendChild(cellEl)
+			
 		}
+	}
+	boardEl.style.gridTemplateColumns = `repeat(${width}, 1fr)`
+	boardEl.style.gridTemplateRows = `repeat(${height}, 1fr)`
+}
+
+function placeRandomBomb(bombNumber, rowIdx, colIdx) {
+	let i = 0 
+	while (i < bombNumber) {
+		let bombRow = randomRow(rowIdx); 
+		let bombCol = randomCol(colIdx); 
+		if (boardArr[bombCol][bombRow].hasBomb = false) {
+			boardArr[bombCol][bombRow].hasBomb = true; 
+			i ++
+		}
+	}
+
+	/* i dont think that you can use a for loop because there are edge cases where it can produce the same cell location*/
+	// for (let i = 0; i < bombNumber; i++) {
+	// 	boardArr[randomRow(rowIdx)][randomCol(colIdx)].hasBomb = true; 
+	// 	// randomRow(rowIdx)
+	// 	console.log(randomRow(rowIdx), randomCol(colIdx))
+	// }
+	
+}
+
+function randomRow(rowIdx) {
+	let randRow = null; 
+	while (randRow === null || randRow === rowIdx) {
+		randRow = Math.round(Math.random() * (difficultyMode[difficulty].gridWidth - 1) ) 
+		return randRow; 
+	}
+}
+function randomCol(colIdx) {
+	let randCol = null; 
+	while (randCol === null || randCol === colIdx) {
+		randCol = Math.round(Math.random() * (difficultyMode[difficulty].gridHeight - 1) ) 
+		return randCol; 
 	}
 }
 

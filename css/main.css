@@ -76,6 +76,8 @@ body > h1 {
     grid-area: body;
     justify-self: center; 
     display: none;
+    width: 90%;
+    height: 90%;
 }
 #easy {
     height: 7vh; 
