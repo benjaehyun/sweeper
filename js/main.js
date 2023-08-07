@@ -15,8 +15,9 @@ const difficultyMode = [{
 	bombNumber: 99
 	}]
 	/*----- state variables -----*/
-let winner, bombCounter, timer, difficulty, height, width; 
+let winner, bombCounter, timer, difficulty, firstClick, height, width; 
 const boardArr = []; 
+
 
 	/*----- cached elements  -----*/
 const diffSelectorEl = document.querySelector("#difficulty-selector");
@@ -35,6 +36,7 @@ function init() {
 	winner = false 
 	bombCounter = 0 
 	timer = 0 
+	firstClick = true; 
 	renderDifficultySelection()
 }
 
@@ -60,8 +62,13 @@ function handleBoardClick(evt) {
 	const gridEls = [...document.querySelectorAll('#grid>div')]
 	const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
 	const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
+	if (firstClick = true) {
 	placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
-	console.log(colIdx, rowIdx)
+	firstClick = false
+	} else {
+		// all of the other clicks to play the game 
+	}
+	console.log(colIdx, rowIdx, difficultyMode[difficulty].bombNumber)
 }
 
 // later: change css for top bar elements to start hidden before changing the ~.style.display to the properties outlined in the current css file 
@@ -125,15 +132,16 @@ function renderCells (height, width) {
 }
 
 function placeRandomBomb(bombNumber, rowIdx, colIdx) {
-	let i = 0 
+	let i = 0;  
 	while (i < bombNumber) {
 		let bombRow = randomRow(rowIdx); 
 		let bombCol = randomCol(colIdx); 
 		if (boardArr[bombCol][bombRow].hasBomb = false) {
 			boardArr[bombCol][bombRow].hasBomb = true; 
-			i ++
-		}
+			return i++; 
+		} else return 
 	}
+}
 
 	/* i dont think that you can use a for loop because there are edge cases where it can produce the same cell location*/
 	// for (let i = 0; i < bombNumber; i++) {
@@ -142,7 +150,6 @@ function placeRandomBomb(bombNumber, rowIdx, colIdx) {
 	// 	console.log(randomRow(rowIdx), randomCol(colIdx))
 	// }
 	
-}
 
 function randomRow(rowIdx) {
 	let randRow = null; 
