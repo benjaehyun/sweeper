@@ -62,13 +62,15 @@ function handleBoardClick(evt) {
 	const gridEls = [...document.querySelectorAll('#grid>div')]
 	const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
 	const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
-	if (firstClick = true) {
+	if (firstClick === true) {
 		placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
+		calculateNearBombs(); 
 		firstClick = false
 	} else {
+		console.log(colIdx, rowIdx)
 		// all of the other clicks to play the game 
 	}
-	console.log(colIdx, rowIdx, difficultyMode[difficulty].bombNumber)
+	// console.log(colIdx, rowIdx, difficultyMode[difficulty].bombNumber)
 }
 
 // later: change css for top bar elements to start hidden before changing the ~.style.display to the properties outlined in the current css file 
@@ -114,7 +116,7 @@ function buildArr (x, y) {
 class CellObject {
 	constructor() {
 		this.hasBomb = false, 
-		this.numOfNearBombs = null,
+		this.numOfNearBombs = 0,
 		this.isFlipped = false, 
 		this.isFlagged = false 
 	}
@@ -148,6 +150,19 @@ function placeRandomBomb(bombNumber, rowIdx, colIdx) {
 			i++; 
 		} 
 	}	
+	// calculateNearBombs()
+}
+
+function calculateNearBombs() {
+	for (let i = 0; i < difficultyMode[difficulty].gridHeight; i++) {
+		for (let j = 0; j < difficultyMode[difficulty].gridWidth; j++) {
+			let count = 0 
+			checkAbove(count, i, j) 
+			checkBelow(count, i, j)
+			checkSides(count, i, j)
+			boardArr[i][j].numOfNearBombs = count 
+		}
+	}
 }
 
 	/* i dont think that you can use a for loop because there are edge cases where it can produce the same cell location*/
@@ -171,6 +186,53 @@ function randomCol(colIdx) {
 		randCol = Math.round(Math.random() * (difficultyMode[difficulty].gridHeight - 1) ) 
 	}
 	return randCol; 
+}
+
+function checkAbove(count, i, j) {
+	if (j === 0) {		/* if cell is on top row */
+		if (i === 0) {		/* if cell is on the far left */
+			if (boardArr[i][j-1].hasBomb === true) count ++		
+			if (boardArr[i+1][j-1].hasBomb === true) count ++		
+		} else if (i === (difficultyMode[difficulty].gridWidth - 1)) {		/* if cell is on far right */
+			if (boardArr[i][j-1].hasBomb === true) count ++	
+			if (boardArr[i-1][j-1].hasBomb === true) count ++	
+		} else {
+			if (boardArr[i-1][j-1].hasBomb === true) count ++	
+			if (boardArr[i][j-1].hasBomb === true) count ++	
+			if (boardArr[i+1][j-1].hasBomb === true) count ++	
+		}
+	}
+	return count
+}
+
+function checkBelow(count, i, j) {
+	if (j === (difficultyMode[difficulty].gridHeight - 1)) {		/* if cell is on bottom row */
+		if (i === 0) {		/* if cell is on the far left */
+			if (boardArr[i][j+1].hasBomb === true) count ++
+			if (boardArr[i+1][j+1].hasBomb === true) count ++ 
+		} else if (i === (difficultyMode[difficulty].gridWidth - 1)) {		/* if cell is on far right */
+			if (boardArr[i][j+1].hasBomb === true) count ++ 
+			if (boardArr[i-1][j+1].hasBomb === true) count ++ 		
+		} else {
+			if (boardArr[i-1][j+1].hasBomb === true) count ++ 		
+			if (boardArr[i][j+1].hasBomb === true) count ++ 		
+			if (boardArr[i+1][j+1].hasBomb === true) count ++ 		
+		}
+	}
+	return count 
+}
+
+function checkSides(count, i, j) {
+	if (i === 0) {		/* if cell is on the far left */
+		if (boardArr[i+1][j].hasBomb === true) count ++ 
+	} else if (i === (difficultyMode[difficulty].gridWidth - 1)) {		/* if cell is on far right */
+		if (boardArr[i-1][j].hasBomb === true) count ++ 	
+	} else {	
+		if (boardArr[i-1][j].hasBomb === true) count ++ 		
+		if (boardArr[i+1][j].hasBomb === true) count ++ 		
+	}
+
+	return count 
 }
 
 function getLoser() {			// check if player clicked on bomb 
