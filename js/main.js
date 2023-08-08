@@ -22,6 +22,7 @@ const boardArr = [];
 	/*----- cached elements  -----*/
 const diffSelectorEl = document.querySelector("#difficulty-selector");
 const boardEl = document.querySelector("#grid"); 
+const bombCounterEl = document.querySelector("#bomb-counter")
 
 
 	/*----- event listeners -----*/
@@ -67,6 +68,7 @@ function handleBoardClick(evt) {
 		const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
 		const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
 		if (firstClick === true) {
+			bombCounterEl.innerText = difficultyMode[difficulty].bombNumber; 
 			placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
 			calculateNearBombs(); 
 			renderCellContent(colIdx, rowIdx);
@@ -97,9 +99,17 @@ function handleRightClick(evt) {  /* STILL NEED TO MAKE THIS A TOGGLE */
 		const gridEls = [...document.querySelectorAll('#grid>div')]
 		const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
 		const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
-		boardArr
-		document.getElementById(`c${rowIdx}r${colIdx}`).innerText = "🚩"
-	} else return; 
+		if (!boardArr[colIdx][rowIdx].isFlipped) {
+			boardArr[colIdx][rowIdx].isFlagged = !boardArr[colIdx][rowIdx].isFlagged 
+			if (boardArr[colIdx][rowIdx].isFlagged) {
+				document.getElementById(`c${rowIdx}r${colIdx}`).innerText = "🚩"
+			}
+			if (boardArr[colIdx][rowIdx].isFlagged === false) {
+				document.getElementById(`c${rowIdx}r${colIdx}`).innerText = ""
+			}
+		}
+	} 
+	bombCounterCalculation()
 }
 
 function handleMiddleClick (evt) {  /* still not working */
@@ -123,7 +133,11 @@ function renderCellContent (i, j) {
 	boardArr[i][j].isFlipped = true; 
 	if (boardArr[i][j].hasBomb === true) {
 		document.getElementById(`c${j}r${i}`).innerText = "💣"
-	} else {
+	} 
+	// if (boardArr[i][j].numOfNearBombs === 0) {
+	// 	document.getElementById(`c${j}r${i}`).innerText = ""
+	// } 
+	else {
 		document.getElementById(`c${j}r${i}`).innerHTML = `<strong>${boardArr[i][j].numOfNearBombs}</strong>`
 	}
 }
@@ -176,6 +190,20 @@ class CellObject {
 		this.isFlagged = false,
 		this.flagCounter = 0
 	}
+}
+
+function bombCounterCalculation() {
+	let bombCounter = difficultyMode[difficulty].bombNumber
+	let counter = 0 
+	boardArr.forEach(function(array) {
+		array.forEach(function(element) {
+			if (element.isFlagged === true) {
+				counter ++
+			}
+		})
+	} )
+	bombCounter = bombCounter - counter 
+	bombCounterEl.innerText = bombCounter
 }
 
 function renderCells (height, width) {
@@ -465,74 +493,147 @@ function floodFillBottomRight (i, j) {
 // 	}
 // 	return  
 // }
-
-
 function clearAbove(i, j) {
-	if (j !== 0 && boardArr[i][j-1].isFlipped === false) {		/* if cell is on top row */	
+	if (boardArr[i] && boardArr[i][j-1] && boardArr[i][j-1].isFlipped === false) {		/* if cell is on top row */	
 		if (boardArr[i][j-1].hasBomb === false) {
-			renderCellContent(i, j-1)				
+			renderCellContent(i, j-1)	
+			return floodFillAll (i,j-1)			
 		}
 	} return 
 }
 
 function clearBelow(i, j) {
-	if (j !== (difficultyMode[difficulty].gridHeight - 1)  && boardArr[i][j+1].isFlipped === false) {		/* if cell is on bottom row */
+	if (boardArr[i] && boardArr[i][j+1] && boardArr[i][j+1].isFlipped === false) {		/* if cell is on bottom row */
 		if (boardArr[i][j+1].hasBomb === false) {
-			renderCellContent(i, j+1)				
+			renderCellContent(i, j+1)	
+			return floodFillAll (i,j+1)				
 		}
 	} return  
 }
 
 function clearTopRight(i, j) {
-	if (j !== 0 && i !== (difficultyMode[difficulty].gridWidth - 1) && boardArr[i+1][j-1].isFlipped === false) {		/* if cell is on bottom row */
+	if (boardArr[i+1] && boardArr[i+1][j-1] && boardArr[i+1][j-1].isFlipped === false) {		/* if cell is on top right */
 		if (boardArr[i+1][j-1].hasBomb === false) {
-			renderCellContent(i+1, j-1)				
+			renderCellContent(i+1, j-1)	
+			return floodFillAll (i+1,j-1)				
 		}
 	} return  
 }
 function clearTopLeft(i, j) {
-	if (j !== 0 && i !== 0 && boardArr[i-1][j-1].isFlipped === false) {		/* if cell is on bottom row */
+	if (boardArr[i-1] && boardArr[i-1][j-1] && boardArr[i-1][j-1].isFlipped === false) {		/* if cell is on top left */
 		if (boardArr[i-1][j-1].hasBomb === false) {
-			renderCellContent(i-1, j-1)				
+			renderCellContent(i-1, j-1)
+			return floodFillAll (i-1,j-1)					
 		}
 	} return  
 }
 function clearBottomRight(i, j) {
-	if (j !== (difficultyMode[difficulty].gridHeight - 1) && i !== (difficultyMode[difficulty].gridWidth - 1) && boardArr[i+1][j+1].isFlipped === false) {		/* if cell is on bottom row */
+	if (boardArr[i+1] && boardArr[i+1][j+1] && boardArr[i+1][j+1].isFlipped === false) {		/* if cell is on bottom right */
 		if (boardArr[i+1][j+1].hasBomb === false) {
-			renderCellContent(i+1, j+1)				
+			renderCellContent(i+1, j+1)
+			return floodFillAll (i+1,j+1)					
 		}
 	} return  
 }
 function clearBottomLeft(i, j) {
-	if (j !== (difficultyMode[difficulty].gridHeight - 1) && i !== 0 && boardArr[i-1][j+1].isFlipped === false) {		/* if cell is on bottom row */
+	if (boardArr[i-1] && boardArr[i-1][j+1] && boardArr[i-1][j+1].isFlipped === false) {		/* if cell is on bottom left */
 		if (boardArr[i-1][j+1].hasBomb === false) {
-			renderCellContent(i-1, j+1)				
+			renderCellContent(i-1, j+1)
+			return floodFillAll (i-1,j+1)					
 		}
 	} return  
 }
 
 function clearRight(i, j) {
-	if (i !== (difficultyMode[difficulty].gridWidth - 1)) {		/* if cell is not on right */
+	if (boardArr[i+1] && boardArr[i+1][j] && boardArr[i+1][j].isFlipped === false) {		/* if cell is not on right */
 		if (boardArr[i+1][j].hasBomb === false) {
-			renderCellContent(i + 1, j)				
+			renderCellContent(i + 1, j)	
+			return floodFillAll (i + 1,j)				
 		}	
 	}
 	return  
 }
 
-// check that the array element actually exists as the parameter 
-
-
 function clearLeft(i, j) {
-	if (i !== 0) { 		/* if the cell is not on left */
-		if (boardArr[i-1][j].hasBomb === false) {
-			renderCellContent(i - 1, j)				
-		}	
-	} 
-	return  
+	if (boardArr[i-1] && boardArr[i-1][j] && boardArr[i-1][j].isFlipped === false) { 		/* if the cell is not on left */
+	if (boardArr[i-1][j].hasBomb === false) {
+		renderCellContent(i - 1, j)				
+	}	
+} 
+return  
 }
 
+// function clearAbove(i, j) {
+// 	if (j !== 0 && boardArr[i][j-1].isFlipped === false) {		/* if cell is on top row */	
+// 		if (boardArr[i][j-1].hasBomb === false) {
+// 			renderCellContent(i, j-1)	
+// 			return floodFillAll (i,j-1)			
+// 		}
+// 	} return 
+// }
+
+// function clearBelow(i, j) {
+// 	if (j !== (difficultyMode[difficulty].gridHeight - 1)  && boardArr[i][j+1].isFlipped === false) {		/* if cell is on bottom row */
+// 		if (boardArr[i][j+1].hasBomb === false) {
+// 			renderCellContent(i, j+1)	
+// 			return floodFillAll (i,j+1)				
+// 		}
+// 	} return  
+// }
+
+// function clearTopRight(i, j) {
+// 	if (j !== 0 && i !== (difficultyMode[difficulty].gridWidth - 1) && boardArr[i+1][j-1].isFlipped === false) {		/* if cell is on top right */
+// 		if (boardArr[i+1][j-1].hasBomb === false) {
+// 			renderCellContent(i+1, j-1)	
+// 			return floodFillAll (i+1,j-1)				
+// 		}
+// 	} return  
+// }
+// function clearTopLeft(i, j) {
+// 	if (j !== 0 && i !== 0 && boardArr[i-1][j-1].isFlipped === false) {		/* if cell is on top left */
+// 		if (boardArr[i-1][j-1].hasBomb === false) {
+// 			renderCellContent(i-1, j-1)
+// 			return floodFillAll (i-1,j-1)					
+// 		}
+// 	} return  
+// }
+// function clearBottomRight(i, j) {
+// 	if (j !== (difficultyMode[difficulty].gridHeight - 1) && i !== (difficultyMode[difficulty].gridWidth - 1) && boardArr[i+1][j+1].isFlipped === false) {		/* if cell is on bottom right */
+// 		if (boardArr[i+1][j+1].hasBomb === false) {
+// 			renderCellContent(i+1, j+1)
+// 			return floodFillAll (i+1,j+1)					
+// 		}
+// 	} return  
+// }
+// function clearBottomLeft(i, j) {
+// 	if (j !== (difficultyMode[difficulty].gridHeight - 1) && i !== 0 && boardArr[i-1][j+1].isFlipped === false) {		/* if cell is on bottom left */
+// 		if (boardArr[i-1][j+1].hasBomb === false) {
+// 			renderCellContent(i-1, j+1)
+// 			return floodFillAll (i-1,j+1)					
+// 		}
+// 	} return  
+// }
+
+// function clearRight(i, j) {
+// 	if (i !== (difficultyMode[difficulty].gridWidth - 1) && boardArr[i+1][j].isFlipped === false) {		/* if cell is not on right */
+// 		if (boardArr[i+1][j].hasBomb === false) {
+// 			renderCellContent(i + 1, j)	
+// 			return floodFillAll (i + 1,j)				
+// 		}	
+// 	}
+// 	return  
+// }
+
+// function clearLeft(i, j) {
+// 	if (i !== 0 && boardArr[i-1][j].isFlipped === false) { 		/* if the cell is not on left */
+// 	if (boardArr[i-1][j].hasBomb === false) {
+// 		renderCellContent(i - 1, j)				
+// 	}	
+// } 
+// return  
+// }
+
+// check that the array element actually exists as the parameter 
 
 
 // class MinesweeperGame {
