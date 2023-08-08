@@ -111,10 +111,20 @@
         use a for loop that calls the class (for ex. arrObject) and use the game state object to get the appropriate length, as its comparative parameter 
             declare an array that would either be column or row (for ex. arrColumn), then push.arrColumn(new arrObject)
         nest ^ within another for loop that constructs aforementioned arrays that also uses the other property within the game state object to get the appropriate length, as its comparative parameter 
-            
+
         
 
         use a for loop that calls the class and use the game state object to get the appropriate length, as its comparative parameter 
             nest ^ within another for loop that constructs aforementioned arrays that also uses the other property wtihin the game state object to get the appropriate length, as its comparative parameter 
                 maybe, write up the for loop and 
     
+|day 2 to do| 
+    implement the middle mouse button clear 
+    implement the flood fill algorithm for the first clear 
+        also for each subsequent "0" that is clicked 
+    make the flags toggle-able 
+    set bomb counter 
+    implement an asynchronous function for the timer 
+    code the reset button (will it go back to the init or reset the particular level?)
+    clean up the variable usage (most notably the column and row index)
+    code the winning and the losing conditions 
