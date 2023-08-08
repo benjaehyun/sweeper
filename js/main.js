@@ -27,6 +27,7 @@ const boardEl = document.querySelector("#grid");
 	/*----- event listeners -----*/
 diffSelectorEl.addEventListener("click", handleDifficultyClick);
 boardEl.addEventListener("click", handleBoardClick)
+boardEl.addEventListener("contextmenu", handleRightClick)
 
 	/*----- functions -----*/
 init() 
@@ -65,12 +66,25 @@ function handleBoardClick(evt) {
 	if (firstClick === true) {
 		placeRandomBomb(difficultyMode[difficulty].bombNumber, rowIdx, colIdx); 
 		calculateNearBombs(); 
-		firstClick = false
+		firstClick = false;
+		renderCellContent(colIdx, rowIdx);
 	} else {
+		renderCellContent(colIdx, rowIdx);
 		console.log(colIdx, rowIdx)
 		// all of the other clicks to play the game 
 	}
 	// console.log(colIdx, rowIdx, difficultyMode[difficulty].bombNumber)
+}
+
+function handleRightClick(evt) {  /* STILL NEED TO MAKE THIS A TOGGLE */
+	evt.preventDefault() 
+	if (firstClick === false) {
+		const gridEls = [...document.querySelectorAll('#grid>div')]
+		const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
+		const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
+		document.getElementById(`c${rowIdx}r${colIdx}`).innerText = "🚩"
+	} else return; 
+
 }
 
 // later: change css for top bar elements to start hidden before changing the ~.style.display to the properties outlined in the current css file 
@@ -83,6 +97,26 @@ function renderGameStart(difficulty) {
 	const height = difficultyMode[difficulty].gridHeight
 	buildArr(width, height);
 	renderCells(height, width);
+}
+
+function renderCellContent (i, j) {
+		if (boardArr[i][j].hasBomb === true) {
+			document.getElementById(`c${j}r${i}`).innerText = "💣"
+		} else {
+			document.getElementById(`c${j}r${i}`).innerHTML = `<strong>${boardArr[i][j].numOfNearBombs}</strong>`
+		}
+}
+
+function renderAllCellsContent () {
+	for (let i = 0; i < difficultyMode[difficulty].gridHeight; i++) {
+		for (let j = 0; j < difficultyMode[difficulty].gridWidth; j++) {
+			if (boardArr[i][j].hasBomb === true) {
+				document.getElementById(`c${i}r${j}`).innerText = "💣"
+			} else {
+				document.getElementById(`c${i}r${j}`).innerHTML = `<strong>${boardArr[i][j].numOfNearBombs}</strong>`
+			}
+		}
+	}
 }
 
 // if u add some of the features from the pseudocode, will probably have to make and fill the game properties (width, height, bombNumber) dynamically
@@ -126,8 +160,8 @@ function renderCells (height, width) {
 	for (let i = 0; i < height; i ++) {
 		for (let e = 0; e < width; e ++) {
 			const cellEl = document.createElement("div")
-			cellEl.setAttribute("id", `r${i}c${e}`)
-			cellEl.innerText = "1"
+			cellEl.setAttribute("id", `c${i}r${e}`)
+			cellEl.innerText = ""
 			cellEl.style.border = "solid"
 			cellEl.style.display = "flex"
 			cellEl.style.justifyContent = "center"
@@ -157,9 +191,9 @@ function calculateNearBombs() {
 	for (let i = 0; i < difficultyMode[difficulty].gridHeight; i++) {
 		for (let j = 0; j < difficultyMode[difficulty].gridWidth; j++) {
 			let count = 0 
-			checkAbove(count, i, j) 
-			checkBelow(count, i, j)
-			checkSides(count, i, j)
+			count = checkAbove(count, i, j) 
+			count = checkBelow(count, i, j)
+			count = checkSides(count, i, j)
 			boardArr[i][j].numOfNearBombs = count 
 		}
 	}
@@ -189,7 +223,7 @@ function randomCol(colIdx) {
 }
 
 function checkAbove(count, i, j) {
-	if (j === 0) {		/* if cell is on top row */
+	if (j !== 0) {		/* if cell is on top row */
 		if (i === 0) {		/* if cell is on the far left */
 			if (boardArr[i][j-1].hasBomb === true) count ++		
 			if (boardArr[i+1][j-1].hasBomb === true) count ++		
@@ -206,7 +240,7 @@ function checkAbove(count, i, j) {
 }
 
 function checkBelow(count, i, j) {
-	if (j === (difficultyMode[difficulty].gridHeight - 1)) {		/* if cell is on bottom row */
+	if (j !== (difficultyMode[difficulty].gridHeight - 1)) {		/* if cell is on bottom row */
 		if (i === 0) {		/* if cell is on the far left */
 			if (boardArr[i][j+1].hasBomb === true) count ++
 			if (boardArr[i+1][j+1].hasBomb === true) count ++ 
@@ -224,12 +258,12 @@ function checkBelow(count, i, j) {
 
 function checkSides(count, i, j) {
 	if (i === 0) {		/* if cell is on the far left */
-		if (boardArr[i+1][j].hasBomb === true) count ++ 
-	} else if (i === (difficultyMode[difficulty].gridWidth - 1)) {		/* if cell is on far right */
-		if (boardArr[i-1][j].hasBomb === true) count ++ 	
-	} else {	
+		if (boardArr[i+1][j].hasBomb === true)  count ++ 
+	} if (i === (difficultyMode[difficulty].gridWidth - 1)) {		/* if cell is on far right */
+		if (boardArr[i-1][j].hasBomb === true)  count ++ 	
+	} if (i !== 0 && i !== (difficultyMode[difficulty].gridWidth - 1)) {	
 		if (boardArr[i-1][j].hasBomb === true) count ++ 		
-		if (boardArr[i+1][j].hasBomb === true) count ++ 		
+		if (boardArr[i+1][j].hasBomb === true)  count ++ 		
 	}
 
 	return count 
