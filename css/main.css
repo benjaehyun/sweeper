@@ -102,3 +102,7 @@ body > h1 {
 button > span {
     font-size: 1.5vmin;
 }
+
+.result {
+    display: none; 
+}
