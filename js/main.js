@@ -23,12 +23,15 @@ const boardArr = [];
 const diffSelectorEl = document.querySelector("#difficulty-selector");
 const boardEl = document.querySelector("#grid"); 
 const bombCounterEl = document.querySelector("#bomb-counter")
+const timerEl = document.querySelector("#timer")
+const resetEl = document.querySelector("button")
 
 
 	/*----- event listeners -----*/
 diffSelectorEl.addEventListener("click", handleDifficultyClick);
 boardEl.addEventListener("click", handleBoardClick)
 boardEl.addEventListener("contextmenu", handleRightClick)
+resetEl.addEventListener("click", handleReset)
 // boardEl.on('mouseup', handleMiddleClick)
 // boardEl.addEventListener("wheel", (event) => {console.log('scrollwheel clicked')});
 
@@ -39,7 +42,8 @@ function init() {
 	boardEl.innerHTML = ""
 	winner = false 
 	bombCounter = 0 
-	timer = 0 
+	timer = 000 
+	timerBool = false
 	firstClick = true; 
 	renderDifficultySelection()
 }
@@ -73,6 +77,8 @@ function handleBoardClick(evt) {
 			calculateNearBombs(); 
 			renderCellContent(colIdx, rowIdx);
 			floodFillAll(colIdx, rowIdx)
+			timerBool = true 
+			stopWatch()
 			// floodFillUp(colIdx, rowIdx)
 			// floodFillDown (colIdx, rowIdx)
 			// floodFillLeft (colIdx, rowIdx)
@@ -83,14 +89,23 @@ function handleBoardClick(evt) {
 			// floodFillBottomRight (colIdx, rowIdx)
 			// still need to implement the flood fill algorithm
 		} else {
-			renderCellContent(colIdx, rowIdx);
-			console.log(colIdx, rowIdx)
+			if (!boardArr[colIdx][rowIdx].hasBomb){
+				renderCellContent(colIdx, rowIdx);
+				checkWinner();
+				console.log(colIdx, rowIdx)
+			} if (boardArr[colIdx][rowIdx].hasBomb) {
+				renderLoser()
+			}
 			// all of the other clicks to play the game 
 		}
 	// console.log(colIdx, rowIdx, difficultyMode[difficulty].bombNumber)
 	} else if (evt.button === 4) {  /* still not working */
 		console.log("middlemouseclick")
 	}
+}
+
+function handleReset(evt) {
+	init() 
 }
 
 function handleRightClick(evt) {  /* STILL NEED TO MAKE THIS A TOGGLE */
@@ -152,6 +167,39 @@ function renderAllCellsContent () {
 			}
 		}
 	}
+}
+
+function stopWatch() {
+	if (timerBool) {
+		timer ++ 
+		timerEl.innerText = timer
+		setTimeout(stopWatch, 1000)
+	}
+}
+function renderLoser() {
+	renderAllCellsContent() 
+	timerBool = false 
+	boardEl.style.backgroundColor = "red"
+}
+
+function checkWinner() {
+	let cellCount = 0
+	boardArr.forEach(function(array) {
+		array.forEach(function(element) {
+			if (element.isFlipped && !element.hasBomb) {
+				cellCount ++
+			}
+		})
+	})
+	let gridsize = difficultyMode[difficulty].gridWidth * difficultyMode[difficulty].gridHeight
+	if (cellCount === (gridsize - difficultyMode[difficulty].bombNumber)) {
+		renderWinner() 
+	}
+}
+
+function renderWinner() {
+	boardEl.style.backgroundColor = "green"
+	timerBool = false 
 }
 
 // if u add some of the features from the pseudocode, will probably have to make and fill the game properties (width, height, bombNumber) dynamically
@@ -257,6 +305,7 @@ function randomRow(rowIdx) {
 	}
 	return randRow; 
 }
+
 function randomCol(colIdx) {
 	let randCol = null; 
 	// while (randCol === null || randCol === colIdx || randCol === (colIdx + 2) || randCol === (colIdx - 2)) {		trying to force a 0 bomb count for the starting square 
