@@ -13,6 +13,7 @@ body {
 body > h1 {
     grid-area: header; 
     justify-self: center;
+    line-height: 1vh;
 }
 
 #directions > p {
@@ -25,8 +26,8 @@ body > h1 {
 #canvas {
     grid-area: play;
     justify-self: center;
-    width: 80vw; 
-    height: 80vh; 
+    width: 72vmin; 
+    height: 90vmin; 
     background-color: grey;
     display: grid;
     grid-template-rows: 1fr 5fr;
@@ -40,8 +41,9 @@ body > h1 {
     justify-self: start;
     background-color: red;
     text-align: center;
-    width: 5vw;
-    margin: 2vh; 
+    width: 8vmin;
+    height: 7vmin;
+    margin: 4vmax; 
     display: flex; 
     justify-content: space-evenly;
     align-items: center;
@@ -51,8 +53,9 @@ body > h1 {
     justify-self: end;
     background-color: red;
     text-align: center;
-    width: 5vw;
-    margin: 2vh; 
+    width: 8vmin;
+    height: 7vmin;
+    margin: 4vmax; 
     display: flex; 
     justify-content: space-evenly;
     align-items: center;
@@ -62,7 +65,7 @@ body > h1 {
     justify-self: center; 
     height: 8.88vh; 
     width: 5vw; 
-    margin-top: 0.5vh; 
+    margin-top: 2vmax; 
 }
 #difficulty-selector {
     grid-area: body; 

@@ -13,10 +13,15 @@ const difficultyMode = [{
 	gridWidth: 30, 
 	gridHeight: 16, 
 	bombNumber: 99
+	}, 
+	{
+	gridWidth: 3, 
+	gridHeight: 3, 
+	bombNumber: 1
 	}]
 	/*----- state variables -----*/
-let winner, bombCounter, timer, difficulty, firstClick, height, width; 
-const boardArr = []; 
+let bombCounter, timer, difficulty, firstClick, height, width, timerBool; 
+let boardArr = []; 
 
 
 	/*----- cached elements  -----*/
@@ -25,6 +30,8 @@ const boardEl = document.querySelector("#grid");
 const bombCounterEl = document.querySelector("#bomb-counter")
 const timerEl = document.querySelector("#timer")
 const resetEl = document.querySelector("button")
+const winnerMsgEl = document.querySelector("#winner")
+const loserMsgEl = document.querySelector("#loser")
 
 
 	/*----- event listeners -----*/
@@ -32,19 +39,19 @@ diffSelectorEl.addEventListener("click", handleDifficultyClick);
 boardEl.addEventListener("click", handleBoardClick)
 boardEl.addEventListener("contextmenu", handleRightClick)
 resetEl.addEventListener("click", handleReset)
+// boardEl.addEventListener("mousedown", handleMiddleClick)
 
 	/*----- functions -----*/
 init() 
 
 function init() {
 	boardEl.innerHTML = ""
-	winner = false 
 	bombCounter = 0 
 	timer = 000 
 	timerBool = false
 	firstClick = true; 
 	difficulty = null; 
-	// boardArr = [] 
+	boardArr = [] 
 	renderDifficultyMenu()
 }
 
@@ -83,21 +90,28 @@ function handleBoardClick(evt) {
 		if (!boardArr[colIdx][rowIdx].hasBomb){
 			renderCellContent(colIdx, rowIdx);
 			checkWinner();
-			console.log(colIdx, rowIdx)
 		} if (boardArr[colIdx][rowIdx].hasBomb) {
 			renderLoser()
 		}
-		// all of the other clicks to play the game 
 	}
-// console.log(colIdx, rowIdx, difficultyMode[difficulty].bombNumber)
 }
+
+// function calcGrid(evt.target) {
+// 	const gridEls = [...document.querySelectorAll('#grid>div')]
+// 	const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
+// 	const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
+// 	return colIdx, rowIdx
+// }
 
 function handleReset(evt) {
 	boardEl.style.backgroundColor = ""
+	winnerMsgEl.style.display = "none";
+	loserMsgEl.style.display = "none";
+	document.querySelector("h1").style.display = "flex";
 	init() 
 }
-
-function handleRightClick(evt) {  /* STILL NEED TO MAKE THIS A TOGGLE */
+ 
+function handleRightClick(evt) { 
 	evt.preventDefault() 
 	if (firstClick === false) {
 		const gridEls = [...document.querySelectorAll('#grid>div')]
@@ -114,11 +128,6 @@ function handleRightClick(evt) {  /* STILL NEED TO MAKE THIS A TOGGLE */
 		}
 	} 
 	bombCounterCalculation()
-}
-
-function handleMiddleClick (evt) {  /* still not working */
-	// evt.preventDefault() 
-	console.log("middle mouse click")
 }
 
 // later: change css for top bar elements to start hidden before changing the ~.style.display to the properties outlined in the current css file 
@@ -151,7 +160,12 @@ function renderAllCellsContent () {
 			if (boardArr[i][j].hasBomb === true) {
 				document.getElementById(`c${j}r${i}`).innerText = "💣"
 			} else {
-				document.getElementById(`c${j}r${i}`).innerHTML = `<strong>${boardArr[i][j].numOfNearBombs}</strong>`
+				if (boardArr[i][j].numOfNearBombs === 0) {
+					document.getElementById(`c${j}r${i}`).innerText = ""
+				} 
+				else {
+					document.getElementById(`c${j}r${i}`).innerHTML = `<strong>${boardArr[i][j].numOfNearBombs}</strong>`
+				}
 			}
 		}
 	}
@@ -333,10 +347,6 @@ function checkSides(count, i, j) {
 	}
 
 	return count 
-}
-
-function getLoser() {			// check if player clicked on bomb 
-
 }
 
 function floodFillAll (i,j) {
