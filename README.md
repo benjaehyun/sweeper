@@ -48,9 +48,10 @@ A README.md file with these sections:
         |Fifth| 
             develop some sort of system that is shows some sort of hint if the player gets stuck 
             maybe unhide a hint button after a certain amount of time has elapsed since the game start 
-            use one of the solving algorithms/logic outlined in "https://dash.harvard.edu/bitstream/handle/1/14398552/BECERRA-SENIORTHESIS-2015.pdf" for example 
-                i think that this should reveal a logical next move for the player to make based on the previously completed moves 
             the hint can come in any number of forms: 
+               could randomly reveal a cell or randomly flag a cell (or multiple depending on remaining number of covered cells)
                 maybe highlight a select area (changes based on grid size) that for sure contains a bomb & possibly display the number of bombs in that area depending on the size of the highlighted area 
-                highlight the correct next move to make based on the algorithm/logic explained in the above linked thesis 
+                highlight the correct next move to make 
                 maybe find a way to put this into a string and display that string 
+            David Becerra described very interesting algorithmic approaches to solving minesweeper, specifically the naive single point strategy "https://dash.harvard.edu/bitstream/handle/1/14398552/BECERRA-SENIORTHESIS-2015.pdf" 
+                note: will probably not be that useful for implementing a hint in the code, but an interesting read 
