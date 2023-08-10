@@ -1,13 +1,20 @@
 body {
+    background-color: cornsilk;
+    color: rgb(125, 125, 125); 
     display: grid; 
-    grid-template-rows: repeat(6, 1fr) ;
+    margin: auto; 
+    grid-template-rows: repeat(10, 1fr) ;
     grid-template-areas: 
     "header"
+    "directions"
     "play"
     "play"
     "play"
     "play"
-    "directions";    
+    "play"
+    "play"
+    "play"
+    "play";
 }
 
 body > h1 {
@@ -16,11 +23,15 @@ body > h1 {
     /* line-height: 1vh; */
 }
 
+
 #directions > p {
     grid-area: directions;
     justify-self: center;
     align-items: center;
+    text-align: center;
     font-size: 2vmin  ; 
+    width: 72vmin; 
+    margin: auto;
 }
 
 #canvas {
@@ -28,54 +39,64 @@ body > h1 {
     justify-self: center;
     width: 72vmin; 
     height: 90vmin; 
-    background-color: grey;
+    border-radius: 2%;
+    background-color: transparent;
+    border: grey solid;
     display: grid;
     grid-template-rows: 1fr 8fr;
     grid-template-areas: 
     "head"
     "body";
+    margin-bottom: 5vmin;
 }
 
 #bomb-counter-box{
     grid-area: head;
     justify-self: start;
-    background-color: red;
+    background-color: tomato;
     text-align: center;
     width: 8vmin;
     height: 7vmin;
     margin-top: 1vmax; 
-    margin-left: 1vmax; 
+    margin-left: 1.75vmax; 
     display: flex; 
     justify-content: space-evenly;
     align-items: center;
+    border-radius: 12%;
 }
 
 #timer-box{
     grid-area: head;
     justify-self: end;
-    background-color: red;
+    background-color: tomato;
     text-align: center;
     width: 8vmin;
     height: 7vmin;
     margin-top: 1vmax; 
-    margin-right: 1vmax; 
+    margin-right: 1.95vmax; 
     display: flex; 
     justify-content: space-evenly;
     align-items: center;
+    border-radius: 12%;
 }
 
 #reset-box {
     grid-area: head;
     justify-self: center; 
     display: flex; 
+    background-color: transparent;
     justify-content: space-evenly; 
     align-items: center; 
+    border-radius: 12%;
     /* margin: 4vmax;  */
 }
 
 #reset {
-    height: 8vmin; 
-    width: 8vmin; 
+    background-color: burlywood;
+    height: 7vmin; 
+    width: 7vmin; 
+    font-size: 2.5vmin;
+    border-radius: 12%;
 }
 
 #difficulty-selector {
@@ -96,23 +117,26 @@ body > h1 {
 }
 
 #easy {
-    height: 7vh; 
+    height: 8vh; 
     width: 10vmin;
     font-size: 3vmin;
     line-height: 0.8em;
+    border-radius: 12%;
 }
 
 #medium {
-    height: 7vh; 
+    height: 8vh; 
     font-size: 3vmin;
     line-height: 0.8em;
+    border-radius: 12%;
 }
 
 #hard {
-    height: 7vh; 
+    height: 8vh; 
     width: 10vmin;
     font-size: 3vmin;
     line-height: 0.8em;
+    border-radius: 12%;
 }
 
 button > span {

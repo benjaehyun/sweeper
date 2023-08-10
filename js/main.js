@@ -96,13 +96,6 @@ function handleBoardClick(evt) {
 	}
 }
 
-// function calcGrid(evt.target) {
-// 	const gridEls = [...document.querySelectorAll('#grid>div')]
-// 	const colIdx = ( gridEls.indexOf(evt.target) % difficultyMode[difficulty].gridWidth )
-// 	const rowIdx = Math.floor( gridEls.indexOf(evt.target) / difficultyMode[difficulty].gridHeight)
-// 	return colIdx, rowIdx
-// }
-
 function handleReset(evt) {
 	boardEl.style.backgroundColor = ""
 	winnerMsgEl.style.display = "none";
@@ -130,7 +123,6 @@ function handleRightClick(evt) {
 	bombCounterCalculation()
 }
 
-// later: change css for top bar elements to start hidden before changing the ~.style.display to the properties outlined in the current css file 
 function renderGameStart(difficulty) {
 	diffSelectorEl.style.display = "none";
 	boardEl.style.display = "grid";
@@ -140,23 +132,10 @@ function renderGameStart(difficulty) {
 	renderCells(height, width);
 }
 
-// function renderCellContent (i, j) {
-// 	boardArr[i][j].isFlipped = true; 
-// 	document.getElementById(`c${j}r${i}`).style.backgroundColor = "white"
-// 	if (boardArr[i][j].hasBomb === true) {
-// 		document.getElementById(`c${j}r${i}`).innerText = "💣"
-// 	} 
-// 	if (boardArr[i][j].numOfNearBombs === 0) {
-// 		document.getElementById(`c${j}r${i}`).innerText = ""
-// 	} 
-// 	else {
-// 		document.getElementById(`c${j}r${i}`).innerHTML = `<strong>${boardArr[i][j].numOfNearBombs}</strong>`
-// 	}
-// }
 function renderCellContent (i, j) {
   if(boardArr[i] && boardArr[i][j] && boardArr[i][j].isFlipped === false) {
   	boardArr[i][j].isFlipped = true; 
-  	document.getElementById(`c${j}r${i}`).style.backgroundColor = "white"
+  	document.getElementById(`c${j}r${i}`).style.backgroundColor = "burlywood"
   	if (boardArr[i][j].hasBomb === true) {
   		document.getElementById(`c${j}r${i}`).innerText = "💣"
   	} 
@@ -204,7 +183,7 @@ function stopWatch() {
 function renderLoser() {
 	renderAllCellsContent() 
 	timerBool = false 
-	boardEl.style.backgroundColor = "red"
+	boardEl.style.backgroundColor = "tomato"
 	document.getElementById("loser").style.display = "flex";
 	document.querySelector("h1").style.display = "none";
 }
@@ -225,7 +204,7 @@ function checkWinner() {
 }
 
 function renderWinner() {
-	boardEl.style.backgroundColor = "green"
+	boardEl.style.backgroundColor = "darkseagreen"
 	timerBool = false 
 	document.getElementById("winner").style.display = "flex";
 	document.querySelector("h1").style.display = "none";
@@ -271,7 +250,7 @@ function renderCells (height, width) {
 			const cellEl = document.createElement("div")
 			cellEl.setAttribute("id", `c${i}r${e}`)
 			cellEl.innerText = ""
-			cellEl.style.border = "solid"
+			cellEl.style.border = "solid rgb(125, 125, 125)"
 			cellEl.style.display = "flex"
 			cellEl.style.justifyContent = "center"
 			cellEl.style.alignItems = "center"
@@ -311,7 +290,6 @@ function calculateNearBombs() {
 
 function randomRow(rowIdx) {
 	let randRow = null; 
-	// while (randRow === null || randRow === rowIdx || randRow === (rowIdx + 2) || randRow === (rowIdx - 2)) {		trying to force a 0 bomb count for the starting square 
 	while (randRow === null || randRow === rowIdx ) {
 		randRow = Math.round(Math.random() * (difficultyMode[difficulty].gridWidth - 1) ) 
 	}
@@ -320,7 +298,6 @@ function randomRow(rowIdx) {
 
 function randomCol(colIdx) {
 	let randCol = null; 
-	// while (randCol === null || randCol === colIdx || randCol === (colIdx + 2) || randCol === (colIdx - 2)) {		trying to force a 0 bomb count for the starting square 
 	while (randCol === null || randCol === colIdx ) {
 		randCol = Math.round(Math.random() * (difficultyMode[difficulty].gridHeight - 1) ) 
 	}
