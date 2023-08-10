@@ -1,21 +1,21 @@
 # sweeper 
 A README.md file with these sections:
 
-☐ sweeper: A description of your game. Background info of the game is a nice touch.
+☐ sweeper: Based on the popular game Minesweeper, sweeper is a logic puzzle game which features a grid of clickable squares with hidden bombs scattered through the board. The goal of the game is to clear the entire board without setting off any of the bombs. Originally, the game was developed and released by Microsoft as a part of the "Windows Entertainment Pack", making its first appearance in Windows 3.11. Since then, Minesweeper was a beloved staple for Windows PC users until Windows 8, when it was no longer included by default. Today, the game remains free-to-play as a downloadable from the Microsoft Store.
 
 ☐ Screenshot(s): Images of your actual game.
 
-☐ Technologies Used: List of the technologies used, e.g., JavaScript, HTML, CSS...
+☐ Technologies Used: JavaScript, HTML, CSS 
 
 ☐ Getting Started: In this section include the link to your deployed game and any instructions you deem important.
 
 ☐ Next Steps: 
-    adjust the behavior of the floodfill recursive function which determines the initial (solveable) pattern of revealed cells upon the first click on the board. 
+    Adjust the behavior of the floodfill recursive function which determines the initial (solveable) pattern of revealed cells upon the first click on the board. 
         for some reason stops at cells that contain a value of 0 
-        has odd wrapping behavior that will create "cliffs" of unrevealed cells, this leads to a gross over-use of the function and sometimes solves the entire grid 
-    adjust the code so that the state variables can be adjusted and accessed globally, this is a current issue because different stages of the game (and consequently state variables/cached elements) are initiated as a result of user actions and subsequent functions. Alot of this is an issue because of the current logic used to create a game based on a specified difficuly, and resetting it for later games.
-    refactor the reveal function so that if a cell containing a value of 0 is clicked, it will also reveal any adjacent cells that also contain a value of 0 until it reaches cells that contain neither bombs or non-0 values
-    add the middlemousebutton function back into the code and polish it so that it will reveal all adjacent cells when it is used to click a previously revealed cell 
+        has odd wrapping behavior that will create "cliffs" of unrevealed cells, this leads to a gross over-use of the function and in some edge cases, solves the entire grid 
+    Adjust the code so that the state variables can be adjusted and accessed globally, this is a current issue because different stages of the game (and consequently state variables/cached elements) are initiated as a result of user actions and subsequent functions. Alot of this is an issue because of the current logic used to create a game based on a specified difficuly, and resetting it for later games.
+    Refactor the reveal function so that if a cell containing a value of 0 is clicked, it will also reveal any adjacent cells that also contain a value of 0 until it reaches cells that contain neither bombs or non-0 values
+    Add the middlemousebutton function back into the code and polish it so that it will reveal all adjacent cells when it is used to click a previously revealed cell 
 
     |additional game modes and features|
         As outlined in the pseudocode file, add new game modes and functions. 
