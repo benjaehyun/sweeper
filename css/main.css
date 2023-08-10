@@ -13,7 +13,7 @@ body {
 body > h1 {
     grid-area: header; 
     justify-self: center;
-    line-height: 1vh;
+    /* line-height: 1vh; */
 }
 
 #directions > p {
@@ -30,7 +30,7 @@ body > h1 {
     height: 90vmin; 
     background-color: grey;
     display: grid;
-    grid-template-rows: 1fr 5fr;
+    grid-template-rows: 1fr 8fr;
     grid-template-areas: 
     "head"
     "body";
@@ -43,11 +43,13 @@ body > h1 {
     text-align: center;
     width: 8vmin;
     height: 7vmin;
-    margin: 4vmax; 
+    margin-top: 1vmax; 
+    margin-left: 1vmax; 
     display: flex; 
     justify-content: space-evenly;
     align-items: center;
 }
+
 #timer-box{
     grid-area: head;
     justify-self: end;
@@ -55,18 +57,27 @@ body > h1 {
     text-align: center;
     width: 8vmin;
     height: 7vmin;
-    margin: 4vmax; 
+    margin-top: 1vmax; 
+    margin-right: 1vmax; 
     display: flex; 
     justify-content: space-evenly;
     align-items: center;
 }
-#reset {
+
+#reset-box {
     grid-area: head;
     justify-self: center; 
-    height: 8.88vh; 
-    width: 5vw; 
-    margin-top: 2vmax; 
+    display: flex; 
+    justify-content: space-evenly; 
+    align-items: center; 
+    /* margin: 4vmax;  */
 }
+
+#reset {
+    height: 8vmin; 
+    width: 8vmin; 
+}
+
 #difficulty-selector {
     grid-area: body; 
     justify-self: center; 
@@ -75,6 +86,7 @@ body > h1 {
     justify-content: space-evenly;
     align-items: center;
 }
+
 #grid {
     grid-area: body;
     justify-self: center; 
@@ -82,19 +94,20 @@ body > h1 {
     width: 90%;
     height: 90%;
 }
+
 #easy {
     height: 7vh; 
     width: 10vmin;
     font-size: 3vmin;
     line-height: 0.8em;
-
 }
+
 #medium {
     height: 7vh; 
     font-size: 3vmin;
     line-height: 0.8em;
-
 }
+
 #hard {
     height: 7vh; 
     width: 10vmin;
