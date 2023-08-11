@@ -1,24 +1,24 @@
 # sweeper 
 Based on the popular game Minesweeper, sweeper is a logic puzzle game which features a grid of clickable squares with hidden bombs scattered through the board. The goal of the game is to clear the entire board without setting off any of the bombs. Originally, the game was developed and released by Microsoft as a part of the "Windows Entertainment Pack", making its first appearance in Windows 3.11. Since Windows 3.11, Minesweeper was a beloved staple for Windows PC users until Windows 8, when it was no longer included with the system install. Today, the game remains free-to-play as a downloadable from the Microsoft Store.
 
-<div style="display:flex; margin: 5vmin auto">
-<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%207.46.47%20PM.png?raw=true"  alt ="Starting Title and Directions" width ="50%" style="margin-right:1vmin"> 
+<div style="display:flex; margin: 5vmin auto; justify-content:center;">
+<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%207.46.47%20PM.png?raw=true"  alt ="Starting Title and Directions" width ="30%" style="margin-right:1vmin"> 
 
 
-<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.18.06%20PM.png?raw=true"  alt="Showing Blank Board After Difficulty Selection" width="50%">
+<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.18.06%20PM.png?raw=true"  alt="Showing Blank Board After Difficulty Selection" width="30%">
 </div>
 
-<div style="display:flex; margin: 5vmin auto">
-<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.18.15%20PM.png?raw=true" alt="Initial Reveal Pattern" width="50%" style="margin-right:1vmin" >
+<div style="display:flex; margin: 5vmin auto; justify-content:center;">
+<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.18.15%20PM.png?raw=true" alt="Initial Reveal Pattern" width="30%" style="margin-right:1vmin" >
 
 
-<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%207.47.15%20PM.png?raw=true" alt="Losing Page" width="50%" >
+<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%207.47.15%20PM.png?raw=true" alt="Losing Page" width="30%" >
 </div>
 
-<div style="display:flex; text-align:center; justify-content:center; ">
+<div style="display:flex; justify-content:center; ">
 
 
-<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.27.32%20PM.png?raw=true" alt="Winning Page" width = "50%" >
+<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.27.32%20PM.png?raw=true" alt="Winning Page" width = "30%" >
 </div>
 
 </br>
