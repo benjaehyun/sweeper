@@ -1,9 +1,12 @@
 # sweeper 
-A README.md file with these sections:
+Based on the popular game Minesweeper, sweeper is a logic puzzle game which features a grid of clickable squares with hidden bombs scattered through the board. The goal of the game is to clear the entire board without setting off any of the bombs. Originally, the game was developed and released by Microsoft as a part of the "Windows Entertainment Pack", making its first appearance in Windows 3.11. Since then, Minesweeper was a beloved staple for Windows PC users until Windows 8, when it was no longer included by default. Today, the game remains free-to-play as a downloadable from the Microsoft Store.
 
-☐ sweeper: Based on the popular game Minesweeper, sweeper is a logic puzzle game which features a grid of clickable squares with hidden bombs scattered through the board. The goal of the game is to clear the entire board without setting off any of the bombs. Originally, the game was developed and released by Microsoft as a part of the "Windows Entertainment Pack", making its first appearance in Windows 3.11. Since then, Minesweeper was a beloved staple for Windows PC users until Windows 8, when it was no longer included by default. Today, the game remains free-to-play as a downloadable from the Microsoft Store.
-
-☐ Screenshot(s): Images of your actual game.
+☐ Screenshots: 
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
 ☐ Technologies Used: JavaScript, HTML, CSS 
 
