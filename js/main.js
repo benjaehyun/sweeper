@@ -265,9 +265,7 @@ function placeRandomBomb(bombNumber, rowIdx, colIdx) {
 	let i = 0;  
 	while (i < bombNumber) {
 		let bombRow = randomRow(rowIdx); 
-		let bombCol = randomCol(colIdx); 
-		console.log(boardArr[bombCol][bombRow], bombCol, bombRow)
-		console.log(boardArr[bombCol])
+		let bombCol = randomCol(colIdx); /* please sort out the correct naming convention, mixing up the index and actual identifiers */
 		if (boardArr[bombCol][bombRow].hasBomb === false) {
 			boardArr[bombCol][bombRow].hasBomb = true; 
 			boardArr[bombCol][bombRow].numOfNearBombs = null; 
