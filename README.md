@@ -12,7 +12,7 @@ Based on the popular game Minesweeper, sweeper is a logic puzzle game which feat
 <img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%205.18.15%20PM.png?raw=true" alt="Initial Reveal Pattern" width="40%" style="margin: 1vmin">
 
 
-<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots/Screenshot%202023-08-10%20at%207.47.15%20PM.png?raw=true" alt="Losing Page" width="55%" style="margin: 1vmin">
+<img src="https://github.com/benjaehyun/sweeper/blob/gh-pages/screenshots4Screenshot%202023-08-10%20at%207.47.15%20PM.png?raw=true" alt="Losing Page" width="55%" style="margin: 1vmin">
 </div>
 
 <div style="display:flex; margin: 5vmin auto; text-align:center; flex-direction: column;">
