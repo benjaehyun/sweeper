@@ -40,7 +40,6 @@ Hint: Don't think of the board as a large grid. Rather, break it up into smaller
 * Current configuration does not allow bomb placements at ANY of the cells in the same column or index of the starting square (basically creates a giant cross that will always be clear)
   * Refactor the random index generators to give a single pair of indexes that cannot include the specified coordinates of the starting square rather than two separate values. 
 * Adjust the code so that the state variables can be adjusted and accessed globally, this is a current issue because different stages of the game (and consequently state variables/cached elements) are initiated as a result of user actions and subsequent functions. Alot of this is an issue because of the current logic used to create a game based on a specified difficuly, and resetting it for later games.
-* Add the middlemousebutton function back into the code and polish it so that it will reveal all adjacent cells when it is used to click a previously revealed cell (also inducing the cascading reveal of '0' containing cells)
 * Current issue with creating and populating non-square shaped grids due to variable naming convention. 
   * Clean up the usage of certain variables such as colIdx, rowIdx, bombRow, bombCol, and consequently, i/j parameters given to functions/loops. 
 
