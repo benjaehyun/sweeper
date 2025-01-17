@@ -39,7 +39,7 @@ diffSelectorEl.addEventListener("click", handleDifficultyClick);
 boardEl.addEventListener("click", handleBoardClick)
 boardEl.addEventListener("contextmenu", handleRightClick)
 resetEl.addEventListener("click", handleReset)
-// boardEl.addEventListener("mousedown", handleMiddleClick)
+boardEl.addEventListener("mousedown", handleMiddleClick)
 
 	/*----- functions -----*/
 init() 
@@ -121,6 +121,58 @@ function handleRightClick(evt) {
 		}
 	} 
 	bombCounterCalculation()
+}
+
+function handleMiddleClick(evt) {
+    // verify that it is middle click
+    if (evt.button !== 1 || firstClick) return;
+    
+    // get cell making sure to get the parent element if the text is clicked
+    let cellElement = evt.target;
+    if (evt.target.tagName === 'STRONG') {
+        cellElement = evt.target.parentElement;
+    }
+    
+    const gridEls = [...document.querySelectorAll('#grid>div')]
+    const colIdx = (gridEls.indexOf(cellElement) % difficultyMode[difficulty].gridWidth)
+    const rowIdx = Math.floor(gridEls.indexOf(cellElement) / difficultyMode[difficulty].gridHeight)
+    
+    if (colIdx < 0 || rowIdx < 0) return;
+    
+    if (!boardArr[colIdx][rowIdx].isFlipped) return;
+    
+    let flagCount = 0;
+    let cellsToReveal = [];
+    
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            if (i === 0 && j === 0) continue;
+            const newCol = colIdx + i;
+            const newRow = rowIdx + j;
+            if (newCol >= 0 && newCol < difficultyMode[difficulty].gridWidth &&
+                newRow >= 0 && newRow < difficultyMode[difficulty].gridHeight) {
+                if (boardArr[newCol][newRow].isFlagged) {
+                    flagCount++;
+                } else if (!boardArr[newCol][newRow].isFlipped) {
+                    cellsToReveal.push({col: newCol, row: newRow});
+                }
+            }
+        }
+    }
+    
+    if (flagCount === boardArr[colIdx][rowIdx].numOfNearBombs) {
+        cellsToReveal.forEach(cell => {
+            if (boardArr[cell.col][cell.row].hasBomb) {
+                renderLoser();
+            } else {
+                renderCellContent(cell.col, cell.row);
+                if (boardArr[cell.col][cell.row].numOfNearBombs === 0) {
+                    floodFillAll(cell.col, cell.row);
+                }
+                checkWinner();
+            }
+        });
+    }
 }
 
 function renderGameStart(difficulty) {
