@@ -47,7 +47,7 @@ init()
 function init() {
 	boardEl.innerHTML = ""
 	bombCounter = 0 
-	timer = 000 
+	timer = 0o0 
 	timerBool = false
 	firstClick = true; 
 	difficulty = null; 
@@ -245,15 +245,12 @@ function bombCounterCalculation() {
 }
 
 function renderCells (height, width) {
+	boardEl.innerHTML = '';
+    boardEl.style.display = 'grid';
 	for (let i = 0; i < height; i ++) {
 		for (let e = 0; e < width; e ++) {
 			const cellEl = document.createElement("div")
 			cellEl.setAttribute("id", `c${i}r${e}`)
-			cellEl.innerText = ""
-			cellEl.style.border = "solid rgb(125, 125, 125)"
-			cellEl.style.display = "flex"
-			cellEl.style.justifyContent = "center"
-			cellEl.style.alignItems = "center"
 			boardEl.appendChild(cellEl)
 		}
 	}
